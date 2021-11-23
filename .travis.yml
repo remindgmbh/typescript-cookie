@@ -1,0 +1,21 @@
+language: node_js
+
+os: linux
+dist: focal
+
+node_js:
+    - 12
+    - 14
+    - lts/*
+
+notifications:
+    email:
+        on_success: never
+
+script:
+  - npm i -g codecov
+  - npm i
+  - npm test
+
+after_success:
+  - codecov
