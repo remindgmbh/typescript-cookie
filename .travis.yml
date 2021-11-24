@@ -17,5 +17,5 @@ script:
   - npm i
   - npm test
 
-after_success:
+after_script:
   - codecov

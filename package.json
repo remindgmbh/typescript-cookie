@@ -1,6 +1,6 @@
 {
     "name": "@remindgmbh/typescript-cookie",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Wrapper for document.cookie access.",
     "author": "Hauke Schulz <h.schulz@remind.de>",
     "license": "BSD-3-Clause",

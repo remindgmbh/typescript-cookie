@@ -1,4 +1,4 @@
-# typescript-cookie
+# REMIND - TypeScript Cookie
 
 [travis-img]: https://img.shields.io/travis/remindgmbh/typescript-cookie.svg?style=flat-square
 [codecov-img]: https://img.shields.io/codecov/c/github/remindgmbh/typescript-cookie.svg?style=flat-square

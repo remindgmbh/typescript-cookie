@@ -1,4 +1,20 @@
 /**
+ * Returns all currently set cookes as an array.
+ *
+ * @returns The cookies array
+ */
+export function getCookies(): string[] {
+
+    const cookies: string[] = document.cookie.split(';')
+
+    if (cookies.length === 1 && cookies[0] === '') {
+        return []
+    }
+
+    return cookies
+}
+
+/**
  * Create a cookie with the given values.
  *
  * @param name Name of the cookie
@@ -6,7 +22,13 @@
  * @param time Time in milliseconds until the cooke expires
  * @param path URL path for the cookie
  */
-export function create(name: string, value: string, time: number = 0, path: string = ''): void {
+export function createCookie(name: string, value: string, time: number = 0, path: string = ''): void {
+
+    if (name === '') {
+        return
+    }
+
+    const cookies: string[] = getCookies()
 
     /* Create the cookie string */
     let cookie: string = name + '=' + value
@@ -31,8 +53,19 @@ export function create(name: string, value: string, time: number = 0, path: stri
         cookie += '; path=' + path
     }
 
-    /* Create the actual cookie */
-    document.cookie = cookie
+    for (let i = 0; i < cookies.length; i++) {
+        const index: number | undefined = cookies[i]?.indexOf(name)
+
+        if (index !== -1 || index !== undefined) {
+            cookies[i] = cookie
+            document.cookie = cookies.join(';')
+            return
+        }
+    }
+
+    cookies.push(cookie)
+
+    document.cookie = cookies.join(';')
 }
 
 /**
@@ -40,15 +73,15 @@ export function create(name: string, value: string, time: number = 0, path: stri
  *
  * @param name Name of the cookie to delete
  */
-export function remove(name: string): void {
+export function removeCookie(name: string): void {
 
-    const cookies: string[] = document.cookie.split(';')
+    const cookies: string[] = getCookies()
 
-    for (const cookie of cookies) {
+    for (let i = 0; i < cookies.length; i++) {
 
-        const index = cookie.indexOf(name)
+        const index = cookies[i]?.indexOf(name)
 
-        if (index !== -1) {
+        if (index !== -1 || index !== undefined) {
 
             /* Create a new timestamp */
             const now: Date = new Date(0)
@@ -57,7 +90,7 @@ export function remove(name: string): void {
             * Delete the cookie by setting it without value and
             * setting expires time far before now.
             */
-            cookies[index] = name + '=; expires=' + now.toUTCString()
+            cookies[i] = name + '=; expires=' + now.toUTCString()
         }
     }
 
@@ -68,7 +101,24 @@ export function remove(name: string): void {
  * Checks if the given cookie exists.
  *
  * @param name The cookie name to check
+ * @returns False if no cookie is found
  */
-export function exists(name: string): boolean {
-    return document.cookie.indexOf(name + '=') !== -1
+export function cookieExists(name: string): boolean {
+
+    if (name === '') {
+        return false
+    }
+
+    const cookies: string[] = getCookies()
+
+    for (const cookie of cookies) {
+
+        const index: number = cookie.indexOf(name)
+
+        if (index !== -1) {
+            return true
+        }
+    }
+
+    return false
 }
